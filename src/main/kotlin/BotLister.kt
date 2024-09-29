@@ -10,6 +10,7 @@ class BotLister : ListenerAdapter(){
             val selectMenu = StringSelectMenu.create("select game")
                 .setPlaceholder("select game")
                 .addOption("Satisfactory","satisfactory")
+                .addOption("何もしない","nothing")
                 .build()
 
             event.channel.sendMessage("再起動するゲーム")
@@ -20,21 +21,27 @@ class BotLister : ListenerAdapter(){
 
     override fun onStringSelectInteraction(event: StringSelectInteractionEvent) {
         val selectedGame = event.selectedOptions[0].value
-        event.reply("$selectedGame 再起動中").queue()
 
         val batFilePath = when(selectedGame){
             "satisfactory" -> {
                 "F:/SteamLibrary/steamapps/common/SatisfactoryDedicatedServer/restarter.bat"
             }
+            "nothing" -> {
+                "nothing"
+            }
             else -> return
         }
 
-        try {
-            val process = ProcessBuilder(batFilePath).start()
-            process.waitFor()
-            event.channel.sendMessage("$selectedGame 再起動完了").queue()
-        }catch (e: Exception){
-            event.channel.sendMessage("エラー: ${e.message}").queue()
+        if (batFilePath != "nothing") {
+            try {
+                val process = ProcessBuilder(batFilePath).start()
+                process.waitFor()
+                event.channel.sendMessage("$selectedGame 再起動完了").queue()
+            } catch (e: Exception) {
+                event.channel.sendMessage("エラー: ${e.message}").queue()
+            }
+        }else{
+            event.channel.sendMessage("処理を終了")
         }
     }
 }
