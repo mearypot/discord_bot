@@ -6,7 +6,7 @@ import java.lang.Exception
 
 class BotLister : ListenerAdapter(){
     override fun onMessageReceived(event: MessageReceivedEvent) {
-        if (event.message.contentRaw == "!restart"){
+        if (event.message.contentDisplay == "!restart"){
             val selectMenu = StringSelectMenu.create("select game")
                 .setPlaceholder("select game")
                 .addOption("Satisfactory","satisfactory")
