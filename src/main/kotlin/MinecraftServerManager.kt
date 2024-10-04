@@ -14,11 +14,13 @@ class MinecraftServerManager {
                         "-Xms" + PathsModule.getPath("MIN_RAM"),
                         "-Xmx" + PathsModule.getPath("MAX_RAM"),
                         "-XX:MaxMetaspaceSize=" + PathsModule.getPath("MAX_MetaspaceSize"),
-
                         "-jar", PathsModule.getPath("SERVER_JAR"), "nogui"
                     )
 
                     processBuilder.directory(File(PathsModule.getPath("SERVER_DIRECTORY")!!))
+                    processBuilder.redirectOutput(File("minecraft_server_output.log"))
+                    processBuilder.redirectError(File("minecraft_server_error.log"))
+
                     serverProcess = processBuilder.start()
                 }.start()
                 "サーバー起動中"
