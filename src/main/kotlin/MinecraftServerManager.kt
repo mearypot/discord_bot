@@ -18,8 +18,8 @@ class MinecraftServerManager {
                     )
 
                     processBuilder.directory(File(PathsModule.getPath("SERVER_DIRECTORY")!!))
-                    processBuilder.redirectOutput(File("minecraft_server_output.log"))
-                    processBuilder.redirectError(File("minecraft_server_error.log"))
+                    processBuilder.redirectOutput(File( PathsModule.getPath("SERVER_DIRECTORY")+"minecraft_server_output.log"))
+                    processBuilder.redirectError(File(PathsModule.getPath("SERVER_DIRECTORY")+"minecraft_server_error.log"))
 
                     serverProcess = processBuilder.start()
                 }.start()
