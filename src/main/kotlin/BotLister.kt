@@ -3,10 +3,10 @@ import net.dv8tion.jda.api.events.interaction.component.StringSelectInteractionE
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent
 import net.dv8tion.jda.api.hooks.ListenerAdapter
 import net.dv8tion.jda.api.interactions.components.selections.StringSelectMenu
-import okhttp3.internal.notify
 import java.lang.Exception
 
 class BotLister : ListenerAdapter() {
+    private val minecraftServerManager = MinecraftServerManager()
     override fun onMessageReceived(event: MessageReceivedEvent) {
         if (event.message.contentDisplay == "!restart") {
             val restartSelectMenu = StringSelectMenu.create("restart-select")
@@ -49,9 +49,7 @@ class BotLister : ListenerAdapter() {
 
         try {
             val process = ProcessBuilder("cmd.exe", "/c", "start", "\"\"", "/b", batFilePath).start()
-
-            process.waitFor()  // プロセスの終了を待つ
-            event.channel.sendMessage("通ったよ").queue()
+            process.waitFor()
 
         } catch (e: Exception) {
             event.channel.sendMessage("エラー: ${e.message}").queue()
@@ -60,14 +58,11 @@ class BotLister : ListenerAdapter() {
     }
 
     private fun minecraftHandler(event: StringSelectInteractionEvent,selectedOption: String){
-        val minecraftServerManager = MinecraftServerManager()
-
         if (selectedOption == "minecraft_start"){
             event.reply(minecraftServerManager.startServer()).queue()
         }
         if (selectedOption == "minecraft_stop"){
             event.reply(minecraftServerManager.stopServer()).queue()
         }
-
     }
 }
