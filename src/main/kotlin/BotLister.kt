@@ -39,6 +39,7 @@ class BotLister : ListenerAdapter() {
         when(interactionId){
             "restart-select" -> restartHandler(event, selectedOption)
             "minecraft-select" -> minecraftHandler(event, selectedOption)
+            else -> event.reply("これは みえてはいけないはずだよ")
         }
     }
 

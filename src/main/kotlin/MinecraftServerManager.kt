@@ -40,10 +40,10 @@ class MinecraftServerManager {
                 "サーバー停止中"
             } catch (e: IOException) {
                 println("IOException occurred while writing to outputStream: ${e.message}")
-                "エラー: ${e.message}"
+                "outputStream エラー: ${e.message}"
             } catch (e: Exception) {
                 println("Unexpected exception: ${e.message}")
-                "エラー: ${e.message}"
+                "unexpected エラー: ${e.message}"
             }
         } else {
             "サーバーなし"
