@@ -7,6 +7,7 @@ import java.lang.Exception
 
 class BotLister : ListenerAdapter() {
     private val minecraftServerManager = MinecraftServerManager()
+    private val factorioServerManager = FactorioServerManager()
     override fun onMessageReceived(event: MessageReceivedEvent) {
         if (event.message.contentDisplay == "!restart") {
             val restartSelectMenu = StringSelectMenu.create("restart-select")
@@ -19,16 +20,27 @@ class BotLister : ListenerAdapter() {
                 .queue()
         }
         if (event.message.contentDisplay == "!minecraft"){
-            val stopSelectMenu = StringSelectMenu.create("minecraft-select")
+            val minecraftSelectMenu = StringSelectMenu.create("minecraft-select")
                 .setPlaceholder("select menu")
                 .addOption("サーバー起動","minecraft_start")
                 .addOption("サーバー停止","minecraft_stop")
                 .build()
 
             event.channel.sendMessage("マイクラ鯖メニュー")
-                .setActionRow(stopSelectMenu)
+                .setActionRow(minecraftSelectMenu)
                 .queue()
 
+        }
+        if(event.message.contentDisplay == "!factorio"){
+            val factorioSelectMenu = StringSelectMenu.create("factorio-select")
+                .setPlaceholder("select menu")
+                .addOption("サーバー起動","factorio_start")
+                .addOption("サーバー停止","factorio_stop")
+                .build()
+
+            event.channel.sendMessage("factorio鯖メニュー")
+                .setActionRow(factorioSelectMenu)
+                .queue()
         }
     }
 
@@ -60,10 +72,18 @@ class BotLister : ListenerAdapter() {
 
     private fun minecraftHandler(event: StringSelectInteractionEvent,selectedOption: String){
         if (selectedOption == "minecraft_start"){
-            event.reply(minecraftServerManager.startServer()).queue()
+            event.channel.sendMessage(minecraftServerManager.startServer()).queue()
         }
         if (selectedOption == "minecraft_stop"){
-            event.reply(minecraftServerManager.stopServer()).queue()
+            event.channel.sendMessage(minecraftServerManager.stopServer()).queue()
+        }
+    }
+    private fun factorioHandler(event: StringSelectInteractionEvent,selectedOption: String){
+        if(selectedOption == "factorio_start"){
+            event.channel.sendMessage(factorioServerManager.startServer()).queue()
+        }
+        if(selectedOption == "minecraft_stop"){
+            event.channel.sendMessage(factorioServerManager.startServer()).queue()
         }
     }
 }
