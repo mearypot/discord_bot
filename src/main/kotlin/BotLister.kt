@@ -1,4 +1,5 @@
 import module.PathsModule
+import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent
 import net.dv8tion.jda.api.events.interaction.component.StringSelectInteractionEvent
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent
 import net.dv8tion.jda.api.hooks.ListenerAdapter
@@ -8,39 +9,45 @@ import java.lang.Exception
 class BotLister : ListenerAdapter() {
     private val minecraftServerManager = MinecraftServerManager()
     private val factorioServerManager = FactorioServerManager()
-    override fun onMessageReceived(event: MessageReceivedEvent) {
-        if (event.message.contentDisplay == "!restart") {
-            val restartSelectMenu = StringSelectMenu.create("restart-select")
-                .setPlaceholder("select game")
-                .addOption("Satisfactory", "satisfactory")
-                .build()
 
-            event.channel.sendMessage("再起動するゲーム")
-                .setActionRow(restartSelectMenu)
-                .queue()
-        }
-        if (event.message.contentDisplay == "!minecraft"){
-            val minecraftSelectMenu = StringSelectMenu.create("minecraft-select")
-                .setPlaceholder("select menu")
-                .addOption("サーバー起動","minecraft_start")
-                .addOption("サーバー停止","minecraft_stop")
-                .build()
+    override fun onSlashCommandInteraction(event: SlashCommandInteractionEvent) {
+        when(event.name) {
+            "restart" -> {
+                val restartSelectMenu = StringSelectMenu.create("restart-select")
+                    .setPlaceholder("select game")
+                    .addOption("Satisfactory", "satisfactory")
+                    .build()
 
-            event.channel.sendMessage("マイクラ鯖メニュー")
-                .setActionRow(minecraftSelectMenu)
-                .queue()
+                event.reply("再起動するゲーム")
+                    .addActionRow(restartSelectMenu)
+                    .queue()
 
-        }
-        if(event.message.contentDisplay == "!factorio"){
-            val factorioSelectMenu = StringSelectMenu.create("factorio-select")
-                .setPlaceholder("select menu")
-                .addOption("サーバー起動","factorio_start")
-                .addOption("サーバー停止","factorio_stop")
-                .build()
+            }
+            "minecraft" -> {
+                val minecraftSelectMenu = StringSelectMenu.create("minecraft-select")
+                    .setPlaceholder("select menu")
+                    .addOption("サーバー起動", "minecraft_start")
+                    .addOption("サーバー停止", "minecraft_stop")
+                    .build()
 
-            event.channel.sendMessage("factorio鯖メニュー")
-                .setActionRow(factorioSelectMenu)
-                .queue()
+                event.reply("マイクラ鯖メニュー")
+                    .addActionRow(minecraftSelectMenu)
+                    .queue()
+
+            }
+            "factorio" -> {
+                val factorioSelectMenu = StringSelectMenu.create("factorio-select")
+                    .setPlaceholder("select menu")
+                    .addOption("サーバー起動", "factorio_start")
+                    .addOption("サーバー停止", "factorio_stop")
+                    .build()
+
+                event.reply("Factorio鯖メニュー")
+                    .addActionRow(factorioSelectMenu)
+                    .queue()
+
+            }
+            else -> event.reply("不明なコマンドです").queue()
         }
     }
 
@@ -51,6 +58,7 @@ class BotLister : ListenerAdapter() {
         when(interactionId){
             "restart-select" -> restartHandler(event, selectedOption)
             "minecraft-select" -> minecraftHandler(event, selectedOption)
+            "factorio-select" -> factorioHandler(event, selectedOption)
             else -> event.reply("これは みえてはいけないはずだよ")
         }
     }

@@ -10,5 +10,6 @@ class FactorioServerManager: ServerManager() {
     override fun stopProcessBuilderCommand() {
         serverProcess?.outputStream?.write("save\n".toByteArray())
         serverProcess?.outputStream?.write("quit\n".toByteArray())
+        serverProcess?.outputStream?.flush()
     }
 }
