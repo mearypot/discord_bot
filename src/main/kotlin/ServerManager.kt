@@ -7,6 +7,7 @@ abstract class ServerManager() {
             try{
                 Thread{
                     this.serverProcess = startProcessBuilderCommand().start()
+
                 }.start()
                 "サーバー起動中"
             }catch (e: Exception){

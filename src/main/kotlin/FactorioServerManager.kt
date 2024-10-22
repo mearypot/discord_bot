@@ -2,9 +2,11 @@ import module.PathsModule
 
 class FactorioServerManager: ServerManager() {
     override fun startProcessBuilderCommand(): ProcessBuilder {
-        return ProcessBuilder(
+        val processBuilder = ProcessBuilder(
             PathsModule.getPath("FACTORIO_SERVER_DIRECTORY"),"--start-server", PathsModule.getPath("FACTORIO_SAVE_LOCATION")
         )
+
+        return processBuilder
     }
 
     override fun stopProcessBuilderCommand() {

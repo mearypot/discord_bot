@@ -73,25 +73,25 @@ class BotLister : ListenerAdapter() {
             process.waitFor()
 
         } catch (e: Exception) {
-            event.channel.sendMessage("エラー: ${e.message}").queue()
+            event.reply("エラー: ${e.message}").queue()
 
         }
     }
 
     private fun minecraftHandler(event: StringSelectInteractionEvent,selectedOption: String){
         if (selectedOption == "minecraft_start"){
-            event.channel.sendMessage(minecraftServerManager.startServer()).queue()
+            event.reply(minecraftServerManager.startServer()).queue()
         }
         if (selectedOption == "minecraft_stop"){
-            event.channel.sendMessage(minecraftServerManager.stopServer()).queue()
+            event.reply(minecraftServerManager.stopServer()).queue()
         }
     }
     private fun factorioHandler(event: StringSelectInteractionEvent,selectedOption: String){
         if(selectedOption == "factorio_start"){
-            event.channel.sendMessage(factorioServerManager.startServer()).queue()
+            event.reply(factorioServerManager.startServer()).queue()
         }
         if(selectedOption == "minecraft_stop"){
-            event.channel.sendMessage(factorioServerManager.startServer()).queue()
+            event.reply(factorioServerManager.startServer()).queue()
         }
     }
 }
